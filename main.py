@@ -1,18 +1,17 @@
 from fastapi import FastAPI, HTTPException, status
 from pydantic import BaseModel
-from typing import Optional
 
 app = FastAPI()
 
 class WeightLog(BaseModel):
     weight: float
     date: str
-    note: Optional[str] = None
+    note: str | None = None
 
 class CheckIn(BaseModel):
     weight: float
     calories: int
-    note: Optional[str] = None
+    note: str | None = None
 
 class UpdateWeight(BaseModel):
     weight: float
