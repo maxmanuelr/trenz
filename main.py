@@ -13,6 +13,13 @@ class CheckIn(BaseModel):
     calories: int
     note: str | None = None
 
+
+class CheckInResponse(BaseModel):
+    weight: float
+    calories: int 
+    note: str | None = None
+    received: bool 
+
 class UpdateWeight(BaseModel):
     weight: float
 
@@ -36,7 +43,7 @@ async def get_log_weight(limit: int = 7, unit: str = "lbs"):
     return {"limit": limit, "unit": unit, "entries": []}
 
 
-@app.post("/checkin", status_code=status.HTTP_201_CREATED)
+@app.post("/checkin", status_code=status.HTTP_201_CREATED, response_model=CheckInResponse)
 async def check_in(check_in: CheckIn):
     return {"received": True, "weight": check_in.weight, "calories": check_in.calories, "note": check_in.note}
 
@@ -59,4 +66,5 @@ async def update_check_in(id:int, new_weight: UpdateWeight):
 @app.delete("/checkin/{id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_check_in(id:int):
     return 
+
 
